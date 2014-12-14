@@ -286,6 +286,7 @@ table.with-full-borders {
 table.with-full-borders td,
 table.with-full-borders th {
   border: 1px solid $black;
+  padding: 0.25rem;
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
