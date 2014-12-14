@@ -96,7 +96,7 @@ Stage: #{facesContext.application.projectStage}
 
 [jsr314]: <http://jcp.org/aboutJava/communityprocess/final/jsr314/index.html> "JSR-000314 JavaServer™ Faces 2.0"
 [projectstage]: <https://blogs.oracle.com/rlubke/entry/jsf_2_0_new_feature2> "JSF 2.0 New Feature Preview Series (Part 1): ProjectStage"
-[weblogic-jndi-cr-config-post]: <http://coder-in-training.blogspot.com/2012/03/weblogic-jndi-custom-resource.html> "WebLogic JNDI Custom Resource Configuration"
+[weblogic-jndi-cr-config-post]: <{% post_url 2012-03-28-weblogic-jndi-custom-resource-configuration %}> "WebLogic JNDI Custom Resource Configuration"
 [weblogic-jndi-cr-config-source]: <https://github.com/phillipgreenii/weblogic-jndi-custom-resource-configuration> "Github: WebLogic JNDI Custom Resource Configuration Source Code"
 [resource-ref-used-for]: <http://stackoverflow.com/questions/2887967/what-is-resource-ref-in-web-xml-used-for> "What is resource-ref in web.xml used for?"
 
