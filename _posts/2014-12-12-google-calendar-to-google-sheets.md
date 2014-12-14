@@ -421,7 +421,7 @@ Read below for more details.
 
 The code above assumes a worksheet in your spreadsheet called "Work" with the following columns:
 
-<table><thead>
+<table class="with-full-borders"><thead>
 <tr>
   <th>Title</th>
   <th>Description</th>
