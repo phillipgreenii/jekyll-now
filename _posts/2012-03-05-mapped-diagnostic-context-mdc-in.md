@@ -212,4 +212,4 @@ Log message from Weblogic using JUL and LogbackToJulAppender showing message wit
 [jul]: <http://docs.oracle.com/javase/6/docs/api/java/util/logging/package-summary.html> "JavaDocs for java.util.logging"
 [log4j]: <http://logging.apache.org/log4j/1.2/index.html> "log4j"
 
-[img-weblogic-stdout-stderr-screenshot]: <{{ site.baseurl }}/images/screenshot-weblogic-10.3.5-stdout-stderr-redirect> "Weblogic 10.3.5 stdout-stderr redirect screenshot"
+[img-weblogic-stdout-stderr-screenshot]: <{{ site.baseurl }}/images/mapped-diagnostic-context-mdc-in/screenshot-weblogic-10.3.5-stdout-stderr-redirect.png> "Weblogic 10.3.5 stdout-stderr redirect screenshot"
