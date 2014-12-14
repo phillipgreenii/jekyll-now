@@ -2,7 +2,7 @@
 layout: post
 title: Google Calendar to Google Sheets Bidirectional Sync
 date: '2014-12-12T07:47:00.001-05:00'
-author: Phillip Green
+author: Phillip Green II
 tags:
 - sheets
 - javascript
