@@ -421,9 +421,10 @@ Read below for more details.
 
 The code above assumes a worksheet in your spreadsheet called "Work" with the following columns:
 
-| Title              | Description | Location | Start Timestamp    | End Timestamp | Event Id (don't touch) |
-|--------------------|-------------|----------|--------------------|---------------|------------------------|
-| Christmas Vacation |             |          | 12/24/2012 0:00:00 |               |                        |          |
+| Title              | Description | Location | Start Timestamp    | End Timestamp      | Event Id (don't touch) |
+|--------------------|-------------|----------|--------------------|--------------------|------------------------|
+| Christmas Vacation |             |          | 12/24/2012 0:00:00 | 12/28/2012 0:00:00 |                        |
+
 The event id column is very important.
 This is what matches `EventInfo`s against Calendar events.
 Because of that, it must exist and you should never manually change this column.
