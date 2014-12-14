@@ -13,8 +13,6 @@ blogger_id: tag:blogger.com,1999:blog-3096944600800047027.post-67139299241134728
 blogger_orig_url: http://coder-in-training.blogspot.com/2012/03/weblogic-jndi-custom-resource.html
 ---
 
-#WebLogic JNDI Custom Resource Configuration
-
 I have been using WebLogic for a couple years now.
 While it is better than Oracle Application Server, it is missing some very important functionality.
 Today's complaint is the lacking of a way to add custom JNDI resources.
@@ -25,7 +23,7 @@ I was very frustrated that other application servers add the functionality, but 
 
 #weblogic-jndi-custom-resource-configuration
 
-I drew from Roger's code and made this project: [weblogic-jndi-custom-resource-configuration][]. It provides a couple separate Initializers: `StringInitializer`, `PropertiesInitializer`, and `LdapDirContextInitializer`. Installation and configuration instructions can be found at [weblogic-jndi-custom-resource-configuration][]. Essentially, you copy the jar to the domain classpath of WebLogic and add Initializers as Startup Classes.
+I drew from [Roger][roger-parkinson-googlecode]'s code and made this project: [weblogic-jndi-custom-resource-configuration][]. It provides a couple separate Initializers: `StringInitializer`, `PropertiesInitializer`, and `LdapDirContextInitializer`. Installation and configuration instructions can be found at [weblogic-jndi-custom-resource-configuration][]. Essentially, you copy the [jar](https://bitbucket.org/phillip_green_idmworks/weblogic-jndi-custom-resource-configuration/downloads/weblogic-jndi-custom-resource-configuration-1.0.jar) to the domain classpath of WebLogic and add Initializers as Startup Classes.
 
 ##StringInitializer
 
@@ -38,11 +36,11 @@ I drew from Roger's code and made this project: [weblogic-jndi-custom-resource-c
 |Field|Value|
 |:----|:----|
 |Name|server-node|
-|Class Name|	com.idmworks.weblogic.jndiconfiguration.StringInitializer|
-|Arguments|	server/node=Test|
+|Class Name|	**com.idmworks.weblogic.jndiconfiguration.StringInitializer**|
+|Arguments|	**server/node=Test**|
 |Failure is Fatal|	unticked|
 |Run Before Application Deployments|	unticked|
-|Run Before Application Activations|	ticked|
+|Run Before Application Activations|	**ticked**|
 
 The magic happens with the arguments: `server/node=Test`. `StringInitializer` will insert the value, "Test", at the JNDI location `server/node`.
 
@@ -68,11 +66,11 @@ In previous example, the `String` instance is available just as any other object
 |Field|Value|
 |:----|:----|
 |Name|myapp-properties|
-|Class Name|	com.idmworks.weblogic.jndiconfiguration.PropertiesInitializer|
-|Arguments|	properties/myapp=/path/to/myapp.properties|
+|Class Name|	**com.idmworks.weblogic.jndiconfiguration.PropertiesInitializer**|
+|Arguments|	**properties/myapp=/path/to/myapp.properties**|
 |Failure is Fatal|	unticked|
 |Run Before Application Deployments|	unticked|
-|Run Before Application Activations|	ticked|
+|Run Before Application Activations|	**ticked**|
 
 As before, we focus on the arguments: `properties/myapp=/path/to/myapp.properties`. `PropertiesInitializer` will create an instance of `java.util.Properties` from the properties found at `/path/to/myapp.properties`. It next places it at the JNDI location `properties/myapp`.
 
@@ -100,11 +98,11 @@ The created `DirContext` from the factory will be configured by the specified pr
 |Field|Value|
 |:----|:----|
 |Name|ldap-test|
-|Class Name|	com.idmworks.weblogic.jndiconfiguration.LdapDirContextInitializer|
-|Arguments|	ldap/test=/path/to/ldap.properties|
+|Class Name|	**com.idmworks.weblogic.jndiconfiguration.LdapDirContextInitializer**|
+|Arguments|	**ldap/test=/path/to/ldap.properties**|
 |Failure is Fatal|	unticked|
 |Run Before Application Deployments|	unticked|
-|Run Before Application Activations|	ticked|
+|Run Before Application Activations|	**ticked**|
 
 
 
@@ -133,17 +131,19 @@ final DirContext ldapContext = (DirContext) initialContext.lookup("ldap/test");
 In previous example, the `DirContext` instance is available just as any other object in JNDI.
 Each time `initialContext.lookup("ldap/test")`` is called, a new `DirContext` is created, so it is the responsibility of the caller to close the connection.
 
-#References
+##References
+ * [Roger Parkinson's Page on Googlecode][roger-parkinson-googlecode]
  * [Custom resource in JNDI on different application servers.][custom-jndi-resource]
  * [weblogic-jndi-startup][]
  * [weblogic-jndi-custom-resource-configuration][]
 
 
+[roger-parkinson-googlecode]: <https://code.google.com/u/roger.parkinson35/> "Roger Parkinson's Page on Googlecode"
 [custom-jndi-resource]: <http://stackoverflow.com/questions/3749799/custom-resource-in-jndi-on-different-application-servers> "Custom resource in JNDI on different application servers."
 [weblogic-jndi-startup]: <http://code.google.com/p/weblogic-jndi-startup/> "weblogic-jndi-startup"
 [weblogic-jndi-custom-resource-configuration]: <https://github.com/phillipgreenii/weblogic-jndi-custom-resource-configuration> "weblogic-jndi-custom-resource-configuration"
 
 
-[img-server-node-config] <{{ site.baseurl }}/images/weblogic-jndi-custom-resource-configuration/StringInitializer-server-node-configuration.png> "server node Configuration"
-[img-myapp-prop-config] <{{ site.baseurl }}/images/weblogic-jndi-custom-resource-configuration/PropertiesInitializer-myapp-properties-configuration.png> "myapp properties Configuration"
-[img-ldap-test-config] <{{ site.baseurl }}/images/weblogic-jndi-custom-resource-configuration/LdapDirContextInitializer-ldap-test-configuration.png> "LDAP Test Configuration"
+[img-server-node-config]: <{{ site.baseurl }}/images/weblogic-jndi-custom-resource-configuration/StringInitializer-server-node-configuration.png> "server node Configuration"
+[img-myapp-prop-config]: <{{ site.baseurl }}/images/weblogic-jndi-custom-resource-configuration/PropertiesInitializer-myapp-properties-configuration.png> "myapp properties Configuration"
+[img-ldap-test-config]: <{{ site.baseurl }}/images/weblogic-jndi-custom-resource-configuration/LdapDirContextInitializer-ldap-test-configuration.png> "LDAP Test Configuration"
