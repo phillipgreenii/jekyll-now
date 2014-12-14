@@ -64,6 +64,10 @@ Due to the previous error, none of my log messages ever showed up in Weblogic.
 
 ##Attempt 3: Enable stdout and stderr logging in Weblogic
 While trying the previous attempts, I noticed the following tick boxes in Weblogic:
+
+![Weblogic Logging Configuration][img-weblogic-stdout-stderr-screenshot]
+
+
 `Redirect stdout logging enabled` and `Redirect stderr logging enabled` tick boxes
 They can be found at `Environment -> Servers -> ${servername} -> Logging -> Advanced`.
 
