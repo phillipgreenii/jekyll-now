@@ -51,6 +51,7 @@ This will configure `jsf/master/ProjectStage` to store the value of "Development
 In the previous step, "Development" was added to the global name space as `jsf/master/ProjectStage`.
 The JSF JSR Documentation states that it looks for the ProjectStage at `java:comp/env/jsf/ProjectStage` which is the local namespace.
 In order to define it in the local name space, we need to specify it in `web.xml`.
+
 ```xml
 <web-app version="2.5" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemalocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
   <!-- ... other configuration removed ... -->
@@ -97,7 +98,7 @@ Stage: #{facesContext.application.projectStage}
 [projectstage]: <https://blogs.oracle.com/rlubke/entry/jsf_2_0_new_feature2> "JSF 2.0 New Feature Preview Series (Part 1): ProjectStage"
 [weblogic-jndi-cr-config-post]: <http://coder-in-training.blogspot.com/2012/03/weblogic-jndi-custom-resource.html> "WebLogic JNDI Custom Resource Configuration"
 [weblogic-jndi-cr-config-source]: <https://github.com/phillipgreenii/weblogic-jndi-custom-resource-configuration> "Github: WebLogic JNDI Custom Resource Configuration Source Code"
-[resource-ref-used-for]: <http://stackoverflow.com/questions/2887967/what-is-resource-ref-in-web-xml-used-for"> "What is resource-ref in web.xml used for?"
+[resource-ref-used-for]: <http://stackoverflow.com/questions/2887967/what-is-resource-ref-in-web-xml-used-for> "What is resource-ref in web.xml used for?"
 
 
 [img-jsf-stage-config]: <{{ site.baseurl }}/images/specifying-projectstage-in-jndi-with/StringInitializer-jsf-stage-configuration.png> "ProjectStage Configuration"
