@@ -421,9 +421,26 @@ Read below for more details.
 
 The code above assumes a worksheet in your spreadsheet called "Work" with the following columns:
 
-| Title              | Description | Location | Start Timestamp    | End Timestamp      | Event Id (don't touch) |
-|:-------------------|:------------|:---------|:-------------------|:-------------------|:-----------------------|
-| Christmas Vacation |             | Home     | 12/24/2012 0:00:00 | 12/28/2012 0:00:00 |                        |
+<table><thead>
+<tr>
+  <th>Title</th>
+  <th>Description</th>
+  <th>Location</th>
+  <th>Start Timestamp</th>
+  <th>End Timestamp</th>
+  <th>Event Id (don't touch)</th>
+</tr>
+</thead><tbody>
+<tr>
+  <td>Christmas Vacation</td>
+  <td></td>
+  <td>Home</td>
+  <td>12/24/2012 0:00:00</td>
+  <td>12/28/2012 0:00:00</td>
+  <td></td>
+</tr>
+</tbody></table>
+
 
 The event id column is very important.
 This is what matches `EventInfo`s against Calendar events.
