@@ -68,7 +68,6 @@ While trying the previous attempts, I noticed the following tick boxes in Weblog
 ![Weblogic Logging Configuration][img-weblogic-stdout-stderr-screenshot]
 
 
-`Redirect stdout logging enabled` and `Redirect stderr logging enabled` tick boxes
 They can be found at `Environment -> Servers -> ${servername} -> Logging -> Advanced`.
 
 First, I reset everything back to the original configuration: Weblogic back to using JUL and my app using logback. Next, I enabled the `Redirect stdout logging` and `Redirect stderr logging`. Finally, I configured two console appenders in logback so that `INFO` messages are logged through stdout and anything `WARN` or above is logged through stderr. I left out the exact configuration because it didn't work as I wanted it to. The logs did show up, just not quite right:
