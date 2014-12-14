@@ -16,19 +16,12 @@ modified_time: '2012-04-10T09:54:00.248-04:00'
 blogger_id: tag:blogger.com,1999:blog-3096944600800047027.post-7766739424383127420
 blogger_orig_url: http://coder-in-training.blogspot.com/2012/04/primefaces-30-fileupload-component-on.html
 ---
-I was recently working on a project where I used JSF 2.0 and Primefaces 3.0 for an application deployed to Google App Engine (GAE).  
-The particular problem was dealing with the fileUpload component.  
-In the [documentation][primefaces-docs] for Primefaces, it describes the need to configure `org.primefaces.webapp.filter.FileUploadFilter` so that the multipart request will be handled correctly.  
-Normally, JSF ignores them.  
-The problem with `FileUploadFilter` is that it tries to write a temporary file which is not allowed on GAE.  
-I got around this limit by creating my own filter based on `FileUploadFilter`.
+I was recently working on a project where I used JSF 2.0 and Primefaces 3.0 for an application deployed to Google App Engine (GAE).  The particular problem was dealing with the fileUpload component.  In the [documentation][primefaces-docs] for Primefaces, it describes the need to configure `org.primefaces.webapp.filter.FileUploadFilter` so that the multipart request will be handled correctly. Normally, JSF ignores them.  The problem with `FileUploadFilter` is that it tries to write a temporary file which is not allowed on GAE.  I got around this limit by creating my own filter based on `FileUploadFilter`.
 
 My initial solution was to save the temporary files as blobs,
-but keeping the files in memory was much simpler.  
-I used `FileUploadFilter` as a reference and built an in-memory only `org.apache.commons.fileupload.FileItem` implementation.
+but keeping the files in memory was much simpler.  I used `FileUploadFilter` as a reference and built an in-memory only `org.apache.commons.fileupload.FileItem` implementation.
 
-**Warning: the whole file will be in memory, so this could cause resource issues.  
-For my particular use, I only was dealing with small files (<1MB) being uploaded infrequently.**
+**Warning: the whole file will be in memory, so this could cause resource issues.  For my particular use, I only was dealing with small files (<1MB) being uploaded infrequently.**
 
 ####ii.green.phillip.primefaces.GaeFileUploadFilter
 ```java
