@@ -11,7 +11,7 @@ tags:
 - calendar
 - google sheets
 - google
-modified_time: '2014-12-12T07:47:58.649-05:00'
+modified_time: '2015-03-29T00:48:00.001-05:00'
 blogger_id: tag:blogger.com,1999:blog-3096944600800047027.post-8062514110157538820
 blogger_orig_url: http://coder-in-training.blogspot.com/2014/12/google-calendar-to-google-sheets.html
 calendarUtilsLibProjectKey: MT9e6TqW6VlvXr43nv8kZqWRtpc-QmtJv
@@ -261,7 +261,7 @@ function loadWorkScheduleEventInfos() {
   var numRows = sheet.getLastRow();  // Number of rows to process
   var dataRange = sheet.getRange(startRow, 1, numRows, 8);
   return dataRange.getValues().map(function(row,index){
-    return new MiscEventInfo(sheet,startRow+index,row);
+    return new WorkScheduleEventInfo(sheet,startRow+index,row);
   });
 }
 
