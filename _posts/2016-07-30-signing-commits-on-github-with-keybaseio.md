@@ -32,6 +32,7 @@ To get started, you need some pre-requisites:
 ### Add keybase key to GPG keychain
 
 I first followed the steps from [How to import Keybase private key to use locally with GPG][import-keybaseio-gpg] to export my private key from keybase and import it into my gpg keychain.  I cannot confirm step 3 because I used the GUI instead of the command line, but I expect both are the same.  The end goal is to have your GPG key from keybase installed locally.  Once it is in there, be sure to set the `ownertrust` to `Ultimate`.  I'm sure there is a command to do this, but I did it from the GUI under details.  If this is not set, git will print warnings for your signatures:
+
 ```
 gpg: WARNING: This key is not certified with a trusted signature!
 gpg:          There is no indication that the signature belongs to the owner.
