@@ -14,7 +14,10 @@ modified_time: '2016-06-03T23:47:00.001-05:00'
 
 I start this post of with a confession.  I have never used [GPG][gpg].  I never discounted its usefulness, but never took the time start using it.  I recently was sent my invite for [Keybase.io][keybase-io] and I want to start using it.  In this post, I am describing what I had to do in order to start signing my git commits and have them show up correctly in [Github][github].
 
-To get started, you need some pre-requisents:
+## Pre-requisites
+
+To get started, you need some pre-requisites:
+
  * A [Github account][github-join]
  * A [Keybase.io Account][keybase-io]
    * At the time of this writing, there is a limited access, [message me on twitter][twitter-phillipgreenii] and I'll send you one of my invites.
@@ -24,9 +27,23 @@ To get started, you need some pre-requisents:
  * [pinentry][pinentry] (optional)
    * I use [MacPorts][macports] to install `pinentry-mac`.
 
-I first followed the steps from [How to import Keybase private key to use locally with GPG][import-keybaseio-gpg] to export my private key from keybase and import it into my gpg keychain.  I cannot confirm step 3 because I used the GUI instead of the command line, but I expect both are the same.  The end goal is to have your GPG key from keybase installed locally.  Once it is in there, be sure to set the `ownertrust` to `Ultimate`.  I'm sure there is a command to do this, but I did it from the GUI under details.
+## Instructions
 
-Next I jumped over to [Github GPG + Keybase PGP][github-gpg-keybase-pgp].  If you already added your email addresses to your keybase key during creation, you can skip the first three steps and jump right into adding your GPG key into github.  I then followed the steps to associate my key with my repository and set it to always sign:
+### Add keybase key to GPG keychain
+
+I first followed the steps from [How to import Keybase private key to use locally with GPG][import-keybaseio-gpg] to export my private key from keybase and import it into my gpg keychain.  I cannot confirm step 3 because I used the GUI instead of the command line, but I expect both are the same.  The end goal is to have your GPG key from keybase installed locally.  Once it is in there, be sure to set the `ownertrust` to `Ultimate`.  I'm sure there is a command to do this, but I did it from the GUI under details.  If this is not set, git will print warnings for your signatures:
+```
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+```
+
+### Add Key to github
+
+Next I jumped over to [Github GPG + Keybase PGP][github-gpg-keybase-pgp].  If you already added your email addresses to your keybase key during creation, you can skip the first three steps and jump right into adding your GPG key into github.  
+
+### Enable sign for all commits
+
+I then followed the steps to associate my key with my repository and set it to always sign during commits:
 
 ```
 git config user.signingkey phillip.green.ii@gmail.com
@@ -34,6 +51,8 @@ git config commit.gpgsign true
 ```
 
 I used the "per repository" configuration, but like most everything in git, you can use the `--global` flag to set those values globally.
+
+### Configure GPG Agent to manage the passphrase
 
 If you stop now, you will be prompted to type in your keybase.io passphrase each time you sign a commit.  However, you can configure the `gpg-agent` to handle the passphrase.  I followed the steps from [Automatic Git commit signing with GPG on OSX][atomatic-git-sign-with-gpg-osx] and had only one problem.
 
@@ -45,6 +64,8 @@ max-cache-ttl 7200
 
 pinentry-program /Applications/MacPorts/pinentry-mac.app/Contents/MacOS/pinentry-mac
 ```
+
+## Try it out
 
 To ensure a valid test, I first ran `killall -9 gpg-agent` to ensure no pre-existing agents were running.  Then I opened a fresh terminal, to ensure the scripts would run.  Finally, I made my first commit.  The agent prompted me for my passphrase.  I only need to type it in once because it will be managed by my keychain now.  To ensure things were well, I ran `git log --show-signature`.
 
@@ -63,6 +84,7 @@ After pushing to github, I was met with the following:
 
 ![Verified Github Commit][img-verified-github-commit]
 
+All in all, there isn't  much to it.  I followed a couple blogs with only minor tweaks and now I can sign all of my git commits.
 
 ## References
 * [How to import Keybase private key to use locally with GPG][import-keybaseio-gpg]
