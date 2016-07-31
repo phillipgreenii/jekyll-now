@@ -1,0 +1,68 @@
+==================================================================
+https://keybase.io/phillipgreenii
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://phillipgreenii.github.io
+  * I am phillipgreenii (https://keybase.io/phillipgreenii) on keybase.
+  * I have a public key with fingerprint 8158 F7C2 2E7E B058 A05B  1AA2 FAEB 6674 D182 3AD4
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0101114aeed7bcfcbdfddacac46eb059837b2585a211afba762cca906f6cba5709b30a",
+            "fingerprint": "8158f7c22e7eb058a05b1aa2faeb6674d1823ad4",
+            "host": "keybase.io",
+            "key_id": "faeb6674d1823ad4",
+            "kid": "0101114aeed7bcfcbdfddacac46eb059837b2585a211afba762cca906f6cba5709b30a",
+            "uid": "10594abaa003c7a59cd397d7fedb5919",
+            "username": "phillipgreenii"
+        },
+        "service": {
+            "hostname": "phillipgreenii.github.io",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1469928215,
+    "expire_in": 157680000,
+    "prev": "0185b62ae0b6f9ee069187c58af58259a2d62a0a02d13e89d68b0719d00318cf",
+    "seqno": 10,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.53
+Comment: https://keybase.io/crypto
+
+yMIqAnicrZJZSFRRGMdnWiynAiFKsKC4grSY3HPnrvMwBk6+BBlajUQ2ne2Oh5nm
+TnfumDYJFi2UEdFGC0YGFZYPLUSFUSmD0QIlCRUtRNlDVA4ZtKAt51q99dh5OZzz
+/f+/bzknO2Wsx+e9+uXBRfBRyHnvdp9Je8JtNYUZAVmkSQhkhBgd3Wic0JQTiTEi
+BAQRiAAAGVJKNIRNjIhJCMQQyypFomLofg1Jiq5ACQBoIqipEsbQEFVTxQgqmmgg
+vwiFUsFkiSi1kzZLOByrA0U3NSxJVHMxOhQVBCCUTEiRqmoyAbrkh0Tmxnor5Tp4
+cQimaBmz+B0/REbL+4f+P9edHsUBbpEhglAU/ViDioGJ39CIZlKCFAMYrjBF7QRc
+S7k6Wc/icZaM2pQmGBOaSwUea2CYuuN1+/mnrizKnPo0+t1h0rYcC1txrqp3nGQq
+4FKcpqRrW09R5A8wgliC8MlyRwO1U8xKCAHAldhhbgYgq4Yh6RJQSgXamGQ2jTBX
+oWiqLvLl5qENo+PSFaRKkIpINQ1KRdUAuob5w5iKLikGlAiPilCUCPBT3SCqjkQN
+GITPA+jYFNwW1yUszuZQB0Y5M8WiCeikbSo099xcNc7j9Xnyxo9xv5zHl1/w9yOe
+yU34iZds+brj+ptvc1vedO/P/1C7eNu8FfHC53VzFnbumxG8t8Po6hLCwcriC4/J
+rrVzV1/rq8mb2RYYPvH99pqFITqQd+X8oPdRIJspPjrUempGKLjp4NuSd0XVzf2v
+0jvPZU/SWbjg8qfQkaWxZd+KzhfeONaRf1Juvb908E6np+TB4dO7L/3Y83jWyLPt
+hys/D42fuPzqU3QrnX3fWyEHTSi3zGZfqjdUxQp9xryqvo6pk9rzi6e/AIceVvQE
+B5F47+Hx2rN3e+XcqaoFW5+sHP6waHPo9cuSdVZZPFc+v6lvxD/UNi0cLj3WfiCw
+fHKgcSA3MdPYX+eUr8zcfNrfunHvSGrcL/9QT64=
+=xnhe
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/phillipgreenii
+
+==================================================================
