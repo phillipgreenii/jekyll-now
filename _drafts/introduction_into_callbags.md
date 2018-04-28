@@ -24,7 +24,7 @@ First, I started with the post referenced in the tweet: [Comparing Callbags to R
 
 At this point, I felt I had become familiar enough to attempt writing some code.
 
-# My first source
+# My first source (`interval`)
 
 The power of callbags comes from composing very simple instances into a larger chain.  The problem I am going to work through is a count down timer.  My plan is to build the chain one callbag at a time starting from the beginning and working through to the end.  
  ```typescript
@@ -121,8 +121,62 @@ It's the final cound down: 4
 
 This is my first fully functioning callbag.  For a more official version of `interval`, please use [callbag-interval][callbag-interval].
 
-# My first operator
-__TODO__
+# My first operator (`map`)
+
+In the previous section, I pointed out that my count down timer actually counts up.  My choice to resolve this problem is by implementing an operator known as `map`.  An operator takes a callbag and returns a callbag.  When working with callbags, most of the time will be spent chaining operators together.  You will start with some code which generates some kind of payload which will be manipulated and transformed through various number of operations and finally end in some sink.  For this particular use case, I'm going to use the `map` operator to offset the values in such a way that it counts down.  The logic is `(i) => 4 - i`, which translates as follows
+
+|`i`|`(i) => 4 - i`|
+|---|--------------|
+|0|4|
+|1|3|
+|2|2|
+|3|1|
+|4|0|
+
+`map` can be implemented as follows
+
+```typescript
+import { Callbag, Operator as CallbagOperator } from 'callbag';
+
+export const map: CallbagOperator = (mapFn: Function) => (callbag: Callbag) => (type, sink) => {
+  if (type !== 0) return;
+  
+  callbag(0, (t, d) => {
+    if(t === 1) {
+      sink(t, mapFn(d));
+    } else {
+      sink(t, d);
+    }
+  });
+}
+```
+
+The operator callback only responds to initialize (`0`), in which it initializes the upstream callback.  This initialization is bascially a pass through.  Calls from downstream to the operator will flow upstream.  As values come from upstream, the will be passed downstream, with the exception that when the `type` is 1, then `mapFn` is applied first.
+
+
+Its talkback passes along all calls to the sink, which is the downstream callback.  If the type is `1`, then it will call the passed in function.  This is the mapping.
+
+```typescript
+let canceller;
+// the chaining works inside out, so the values from interval will flow into map
+const c: Callbag = map((i) => 4 - i)(interval(1000));
+c(0, (type, payload) => {
+   if (type === 0) {
+     canceller = payload;
+   } 
+  if (type === 1) {
+     console.log(`It's the final cound down: ${payload}`);
+  }
+});
+
+setTimeout(() => {
+  canceller(2);
+}, 5000);
+```
+
+`map()` is called with the mapping function.  The result of this is an operator which accepts The result of `interval()` (which is a callback).  The composed callback is now stored in `c`.  If you were to compare this code with the previous example, only the creation of the callback changed.  The canceller is now the talkback from `map`, not `interval`, but because of the implementation of `map`, the cancel is passed through to `interval`.
+
+That's it.  I have my first operator.  
 
 # My first chain
 __TODO__
