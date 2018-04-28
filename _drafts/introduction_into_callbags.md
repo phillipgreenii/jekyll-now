@@ -24,9 +24,102 @@ First, I started with the post referenced in the tweet: [Comparing Callbags to R
 
 At this point, I felt I had become familiar enough to attempt writing some code.
 
-
 # My first source
-__TODO__
+
+The power of callbags comes from composing very simple instances into a larger chain.  The problem I am going to work through is a count down timer.  My plan is to build the chain one callbag at a time starting from the beginning and working through to the end.  
+ ```typescript
+import {Factory as CallbagFactory } from 'callbag';
+
+export const interval: CallbagFactory = (period) => (type, sink) => {
+  if (type !== 0) return;
+
+  let i = 0;
+  setInterval(() => {
+    sink(1, i++);
+  }, period);
+
+  sink(0, (t,d) => {})
+}
+```
+
+`Factory` from `callbag` is how you create the initial source.  The previous code can be used as follows:
+
+```typescript
+const c: Callbag = interval(1000);
+
+c(0, (type, payload) => {
+  if(type === 1) {
+    console.log(`It's the final cound down: ${payload}`);
+  }
+});
+```
+`interval()` returns a callbag.  The callbag needs initialized, which happens when it is called with the first parameter (type) set to `0`.  The second paramater is the talkback function.  Every period (1000ms in this instance), the interval callbag will call the talkback function with the `type` set to `1` and the `payload` set to an ever increasing value.  If you check the console, will see something similar to the following:
+
+```
+It's the final cound down: 0
+It's the final cound down: 1
+It's the final cound down: 2
+It's the final cound down: 3
+It's the final cound down: 4
+...
+
+It's the final cound down: 10
+...
+```
+Yay, my first working callbag.  It isn't perfect, but it is a start.  There is two problems.  The most obvious is that is counts up and not down.  This problem will be resolved later by creating my first operator.  The more subtle problem, which needs to be resolved now, is how to stop the callbag.  As it is written now, it will continue calling the talkback forever.  `interval` needs updated to allow `setInterval()` to be cleared.
+
+```typescript
+import {Factory as CallbagFactory } from 'callbag';
+
+export const interval: CallbagFactory = (period) => (type, sink) => {
+  if (type !== 0) return;
+
+  let i = 0;
+  const id = setInterval(() => {
+    sink(1, i++);
+  }, period);
+
+  sink(0, (type) => {
+    // handle END type
+    if (type === 2) {
+      if(id) clearInterval(id);
+    }
+  })
+
+}
+```
+
+Now the callbag from `interval()` supports cancelling.  This can be done as follows. 
+
+```typescript
+let canceller;
+const c: Callbag = interval(1000);
+c(0, (type, payload) => {
+   // on init, grap the canceller to use later
+   if (type === 0) {
+     canceller = payload;
+   } 
+  if (type === 1) {
+     console.log(`It's the final cound down: ${payload}`);
+  }
+});
+
+setTimeout(() => {
+  canceller(2);
+}, 5000);
+```
+
+The talkback from the `interval` callbag will cancel if passed the `type` of `END` (`2`).  It is passed in when `type` is `0`, we just need to grab it (`canceller`).  The previous code will cancel the callbag after `5000ms` which results in the following:
+
+```
+It's the final cound down: 0
+It's the final cound down: 1
+It's the final cound down: 2
+It's the final cound down: 3
+It's the final cound down: 4
+```
+
+This is my first fully functioning callbag.  For a more official version of `interval`, please use [callbag-interval][callbag-interval].
 
 # My first operator
 __TODO__
@@ -44,7 +137,10 @@ __TODO__
 * [Callbag][callbag]
 * [Getting Started: Creating your own utilities][callbag-getting-started]
 * [Comparing Callbags to RxJS for Reactive Programming][compare-callbags-rxjs]
+* Callbags
+  * [Interval][callbag-interval]
 
 [callbag]: <https://github.com/callbag/callbag> "Callbag Specification"
 [callbag-getting-started]: <https://github.com/callbag/callbag/blob/master/getting-started.md> "Getting Started: Creating your own utilities"
 [compare-callbags-rxjs]: <https://egghead.io/articles/comparing-callbags-to-rxjs-for-reactive-programming> "Comparing Callbags to RxJS for Reactive Programming"
+[callbag-interval]: <https://github.com/staltz/callbag-interval/>
