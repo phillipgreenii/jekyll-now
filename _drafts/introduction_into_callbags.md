@@ -176,10 +176,64 @@ setTimeout(() => {
 
 `map()` is called with the mapping function.  The result of this is an operator which accepts The result of `interval()` (which is a callback).  The composed callback is now stored in `c`.  If you were to compare this code with the previous example, only the creation of the callback changed.  The canceller is now the talkback from `map`, not `interval`, but because of the implementation of `map`, the cancel is passed through to `interval`.
 
-That's it.  I have my first operator.  
+That's it.  I have my first operator.  For a more official version of `map`, please use [callbag-map][callbag-map].
 
-# My first chain
-__TODO__
+# My second operator (`take`)
+
+`map` from the previous section fixed the data flowing, but the code outside of the callbags is not very clean.  The `map` operator did an great job of encapsulting functionality, which is the oppisite of what is happening with `canceller`.  Can the cancelling logic be encapsulated into an operator?  Yes, I could take the timer and put it into an operator which cancels the upstream callbag after a fixed period of time.  However, that doesn't feel like the correct solution.  I did that previously because I was learning.  In truth, I don't like dealing with multiple uses of `setInterval` because they could become out of sync.  I think an easier solution would be to count how many messages come from interval and then stop.  This is what the `take` operator does:
+
+```typescript
+import { Callbag, Operator as CallbagOperator } from 'callbag';
+
+export const take: CallbagOperator = (n: number) => (source: Callbag) => (type, sink) => {
+  if (type !== 0) return;
+
+  let count = 0;
+  let sourceTalkBack;
+  function protectedTalkBack(t, d) {
+    if (count < n) sourceTalkBack(t, d);
+  }
+  source(0, (t, d) => {
+
+    if (t === 0) {
+      // on initialize, remember the original talkback
+      sourceTalkBack = d;
+      // but register with the protectedTalkBack
+      sink(t, protectedTalkBack);
+    } else if (t === 1) {
+      // only process the data if the count hasn't be achieved
+      if (count < n) {
+        sink(t, d);
+        count++;
+        // once count has been achieved, end both upstream and downstream
+        if (count === n) {
+          sink(2);
+          sourceTalkBack(2);
+        }
+      }
+    } else {
+      sink(t, d);
+    }
+  });
+}
+```
+
+`take`'s implementation is more complicated, but we can step through it. It initializes by passing through the downstream talkback, however, it wraps it first.  If the count has been achieved, then it doesn't pass along the messages.  As `DATA` (`1`) messages come in, the count is checked and if the max hasn't happened, it passes the message through.  It will also increment the counter and check if the max count has happened.  When the max has occurred, then the `END` (`2`) message is sent to both upstream and downstream callbags.
+
+Adding in `take` simplifies the code:
+
+```typescript
+const c: Callbag = map((i) => 4 - i)(take(5)(interval(1000)));
+c(0, (type, payload) => { 
+  if (type === 1) {
+     console.log(`It's the final cound down: ${payload}`);
+  }
+});
+```
+
+`interval` sends messages to `take`.  They pass through until the limit occurs, then it cancels everything.  Until the cancelation happens, the data is mapped into the values to be displayed.
+
+For a more official version of `take`, please use [callbag-map][callbag-take].
 
 # My first sink
 __TODO__
@@ -192,9 +246,13 @@ __TODO__
 * [Getting Started: Creating your own utilities][callbag-getting-started]
 * [Comparing Callbags to RxJS for Reactive Programming][compare-callbags-rxjs]
 * Callbags
-  * [Interval][callbag-interval]
+  * [interval][callbag-interval]
+  * [tap][callbag-map]
+  * [take][callbag-take]
 
 [callbag]: <https://github.com/callbag/callbag> "Callbag Specification"
 [callbag-getting-started]: <https://github.com/callbag/callbag/blob/master/getting-started.md> "Getting Started: Creating your own utilities"
 [compare-callbags-rxjs]: <https://egghead.io/articles/comparing-callbags-to-rxjs-for-reactive-programming> "Comparing Callbags to RxJS for Reactive Programming"
 [callbag-interval]: <https://github.com/staltz/callbag-interval/>
+[callbag-map]: <https://github.com/staltz/callbag-map/>
+[callbag-take]: <https://github.com/staltz/callbag-take/>
