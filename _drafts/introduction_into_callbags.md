@@ -233,10 +233,50 @@ c(0, (type, payload) => {
 
 `interval` sends messages to `take`.  They pass through until the limit occurs, then it cancels everything.  Until the cancelation happens, the data is mapped into the values to be displayed.
 
-For a more official version of `take`, please use [callbag-map][callbag-take].
+For a more official version of `take`, please use [callbag-take][callbag-take].
 
-# My first sink
-__TODO__
+# My first sink (`forEach`)
+
+The inards of `callbag`s shouldn't be exposed outside of creation of sources, operators, and sinks.  Right now my main code is very callbag specific.  To correct this, I'll create a sink called `forEach`  which calls a function for each data message.
+
+```typescript
+import { Callbag } from 'callbag';
+
+export const forEach = (fn: Function) => (source: Callbag) => {
+  let talkBack;
+  source(0, (t, d) => {
+    if (t === 1) fn(d);
+  });
+}
+```
+
+There isn't much here, which is good. If the message is for data, then it calls the function with the data.  By having, `forEach`, the usage code becomes trvial:
+
+```typescript
+forEach((data) => console.log(`It's the final cound down: ${data}`))(map((i) => 4 - i)(take(5)(interval(1000))));
+```
+
+
+For a more official version of `forEach`, please use [callbag-for-each][callbag-for-each].
+
+## Caveat
+
+I wanted to point this out for completeness.  If you look at the actual implemenation of `forEach`, it looks like the following
+
+```typescript
+import { Callbag } from 'callbag';
+
+export const forEach = (fn: Function) => (source: Callbag) => {
+  let talkBack;
+  source(0, (t, d) => {
+    if (t === 0) talkBack = d;
+    if (t === 1) fn(d);
+    if (t === 1 || t === 0) talkBack(1);
+  });
+}
+```
+The extra code is to support pulling data.  Callbags can either by listenable or pullable.  Pullable callbags will only send the next data message when told to.  The extra code will send those pull messages after each received message.
+
 
 # Putting it all together
 __TODO__
@@ -247,8 +287,9 @@ __TODO__
 * [Comparing Callbags to RxJS for Reactive Programming][compare-callbags-rxjs]
 * Callbags
   * [interval][callbag-interval]
-  * [tap][callbag-map]
+  * [map][callbag-map]
   * [take][callbag-take]
+  * [forEach][callbag-for-each]
 
 [callbag]: <https://github.com/callbag/callbag> "Callbag Specification"
 [callbag-getting-started]: <https://github.com/callbag/callbag/blob/master/getting-started.md> "Getting Started: Creating your own utilities"
@@ -256,3 +297,4 @@ __TODO__
 [callbag-interval]: <https://github.com/staltz/callbag-interval/>
 [callbag-map]: <https://github.com/staltz/callbag-map/>
 [callbag-take]: <https://github.com/staltz/callbag-take/>
+[callbag-for-each]: <https://github.com/staltz/callbag-for-each/>
