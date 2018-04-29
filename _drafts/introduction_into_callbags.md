@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Introduction to Callbag
+title: Introduction to Callbags
 date: '2018-04-28T11:55:00.001-05:00'
 author: Phillip Green II
 tags:
@@ -256,7 +256,6 @@ There isn't much here, which is good. If the message is for data, then it calls 
 forEach((data) => console.log(`It's the final cound down: ${data}`))(map((i) => 4 - i)(take(5)(interval(1000))));
 ```
 
-
 For a more official version of `forEach`, please use [callbag-for-each][callbag-for-each].
 
 ## Caveat
@@ -279,9 +278,42 @@ The extra code is to support pulling data.  Callbags can either by listenable or
 
 
 # Putting it all together
-__TODO__
 
-## References
+The code works, however it is difficult to read with the compositions.  Everything is on a single line and it read right-to-left.  The fix for this is to use a helper function called `pipe`:
+
+```typescript
+export function pipe(...operators) {
+  let r = operators[0];
+
+  for (let i = 1; i < operators.length; i++) {
+    r = operators[i](r);
+  }
+
+  return r;
+}
+```
+
+`pipe` takes a variable number of arguments which consists of a source, various number of operators and finally a sink.  It allows my code to be written as follows:
+
+```typescript
+pipe(
+  interval(1000),
+  take(5),
+  map((i) => 4 - i),
+  forEach(data => console.log(`It's the final cound down: ${data}`))
+)
+```
+
+For a more official version of `pipe`, please use [callbag-pipe][callbag-pipe].
+
+
+# Summary
+
+Overall I really like callbags.  I think it is a great concept and I look forward to digging into more in the future.  If you also enjoy it check out [Callbag Basics][callbag-basics] and please thank [@andrestaltz].
+
+All of the code in this post can be viewed and played with at [Stackblitz][stackblitz-introduction-into-callbags].
+
+# References
 * [Callbag][callbag]
 * [Getting Started: Creating your own utilities][callbag-getting-started]
 * [Comparing Callbags to RxJS for Reactive Programming][compare-callbags-rxjs]
@@ -290,11 +322,18 @@ __TODO__
   * [map][callbag-map]
   * [take][callbag-take]
   * [forEach][callbag-for-each]
+  * [pipe][callbag-pipe]
+* [Callbag Basics][callbag-basics]
+* [Code available on Stackblitz][stackblitz-introduction-into-callbags]
 
 [callbag]: <https://github.com/callbag/callbag> "Callbag Specification"
+[@andrestaltz]: <https://twitter.com/andrestaltz> "Author of Callbag Specification"
 [callbag-getting-started]: <https://github.com/callbag/callbag/blob/master/getting-started.md> "Getting Started: Creating your own utilities"
 [compare-callbags-rxjs]: <https://egghead.io/articles/comparing-callbags-to-rxjs-for-reactive-programming> "Comparing Callbags to RxJS for Reactive Programming"
 [callbag-interval]: <https://github.com/staltz/callbag-interval/>
 [callbag-map]: <https://github.com/staltz/callbag-map/>
 [callbag-take]: <https://github.com/staltz/callbag-take/>
 [callbag-for-each]: <https://github.com/staltz/callbag-for-each/>
+[callbag-pipe]: <https://github.com/staltz/callbag-pipe/>
+[callbag-basics]: <https://github.com/staltz/callbag-basics> "Basic callbag factories and operators to get started with"
+[stackblitz-introduction-into-callbags]: <https://stackblitz.com/edit/phillipgreenii-callbags?file=index.ts> "Code from Introduction to Callbags on Stackblitz"
