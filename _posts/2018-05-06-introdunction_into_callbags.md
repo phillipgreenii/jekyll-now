@@ -125,8 +125,8 @@ This is my first fully functioning callbag.  For a more official version of `int
 
 In the previous section, I pointed out that my countdown timer actually counts up.  My choice to resolve this problem is by using an `operator` known as `map`.  An `operator` takes a callbag and returns a callbag.  When working with callbags, most of the time will be spent chaining operators together.  For this particular use case, I'm going to use the `map` operator to apply `(i) => 4 - i` to offset the values in such a way that it counts down. 
 
-|`i`|`(i) => 4 - i`|
-|---|--------------|
+|input: `i`| output: `(i) => 4 - i`|
+|--:|-------------:|
 |0|4|
 |1|3|
 |2|2|
